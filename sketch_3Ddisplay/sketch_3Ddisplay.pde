@@ -11,10 +11,6 @@ void setup () {
 void draw() {
   clear();
   myview.Update();
-  if (keyPressed) {
-    if (key == 't' || key == 'T') {
-    }
-  }
 }
 
 void mouseReleased() {
