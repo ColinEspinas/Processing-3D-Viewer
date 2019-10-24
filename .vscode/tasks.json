@@ -2,12 +2,31 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Move .pde files",
+      "type": "shell",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated"
+      },
+      "command": "${workspaceRoot}/.vscode/build.sh",
+      "windows": {
+        "command": "rm -r -f \"${workspaceRoot}\\sketch_3Ddisplay\" && mkdir \"${workspaceRoot}\\sketch_3Ddisplay\" && find \"${workspaceRoot}\\src\" -type f -exec cp --backup=numbered -t \"${workspaceRoot}\\sketch_3Ddisplay\" {} +"
+      }
+    },
+    {
       "label": "Run Sketch",
       "type": "shell",
       "group": {
         "kind": "build",
         "isDefault": true
       },
+      "dependsOn": "Move .pde files",
       "command": "${config:processing.path}",
       "presentation": {
         "echo": true,
@@ -16,19 +35,29 @@
         "panel": "dedicated"
       },
       "args": [
-		"--force",
-		"--sketch=${workspaceRoot}/sketch_3Ddisplay",
-		"--output=${workspaceRoot}/sketch_3Ddisplay/out",
-		"--run"
-	  ],
+        "--force",
+        "--sketch=${workspaceRoot}/sketch_3Ddisplay",
+        "--output=${workspaceRoot}/sketch_3Ddisplay/out",
+        "--run"
+      ],
       "windows": {
+        "options": {
+          "shell": {
+            "executable": "cmd.exe",
+            "args": [
+              "/d",
+              "/c"
+            ]
+          }
+        },
         "args": [
           "--force",
-          "--sketch=${workspaceRoot}\\sketch_3Ddisplay",
-          "--output=${workspaceRoot}\\sketch_3Ddisplay\\out",
+          "--sketch=${workspaceRoot}/sketch_3Ddisplay",
+          "--output=${workspaceRoot}/sketch_3Ddisplay/out",
           "--run"
         ]
-      }
+      },
+      "problemMatcher": []
     }
   ]
 }
