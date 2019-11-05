@@ -91,15 +91,10 @@ public class FilledTriangle extends Model {
 		pMoy = cps.get(1);
 		pMax = cps.get(2);
 
-		Edge lEdge = new Edge(
-			(int)pMoy.GetPos().y, 
-			(int)pMin.GetPos().x, 
-			(int)(pMoy.GetPos().x - pMin.GetPos().x),
-			(int)(pMoy.GetPos().y - pMin.GetPos().y),
-			ComputeIncrement(true, (int)(pMoy.GetPos().x - pMin.GetPos().x), (int)(pMoy.GetPos().y - pMin.GetPos().y))
-		);
+		int y = (int)pMin.GetPos().y;
+		Edge lEdge, rEdge;
 
-		Edge rEdge = new Edge(
+		rEdge = new Edge(
 			(int)pMax.GetPos().y, 
 			(int)pMin.GetPos().x, 
 			(int)(pMax.GetPos().x - pMin.GetPos().x),
@@ -107,13 +102,23 @@ public class FilledTriangle extends Model {
 			ComputeIncrement(false, (int)(pMax.GetPos().x - pMin.GetPos().x), (int)(pMax.GetPos().y - pMin.GetPos().y))
 		);
 
-		int y = (int)pMin.GetPos().y;
+		if (pMin.GetPos().y != pMoy.GetPos().y) {
+			lEdge = new Edge(
+				(int)pMoy.GetPos().y, 
+				(int)pMin.GetPos().x, 
+				(int)(pMoy.GetPos().x - pMin.GetPos().x),
+				(int)(pMoy.GetPos().y - pMin.GetPos().y),
+				ComputeIncrement(true, (int)(pMoy.GetPos().x - pMin.GetPos().x), (int)(pMoy.GetPos().y - pMin.GetPos().y))
+			);
 
-		for (; y < pMoy.GetPos().y; ++y) {
-			DrawPixels(lEdge.GetX(), rEdge.GetX(), y, m_color);
-			lEdge.Update();
-			rEdge.Update();
+			for (; y < pMoy.GetPos().y; ++y) {
+				DrawPixels(lEdge.GetX(), rEdge.GetX(), y, m_color);
+				lEdge.Update();
+				rEdge.Update();
+			}
 		}
+
+		if (pMoy.GetPos().y == pMax.GetPos().y) { super.Draw(); return; }
 
 		lEdge = new Edge(
 			(int)pMax.GetPos().y, 
