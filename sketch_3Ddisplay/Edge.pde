@@ -21,4 +21,7 @@ public class Edge {
 		m_inc -= q * m_den;
 	}
 
+	public int GetX() {
+		return m_x;
+	}
 }
