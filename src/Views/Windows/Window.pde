@@ -61,9 +61,6 @@ public class Window extends PApplet {
 		m_surface.setSize(m_width, m_height);
 	}
 
-	int x = 0;
-	int y = 0;
-
 	void draw() {
 		clear();
 	}
