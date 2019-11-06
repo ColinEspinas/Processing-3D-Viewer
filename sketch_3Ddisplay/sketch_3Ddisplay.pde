@@ -1,11 +1,31 @@
+import controlP5.*;
+
+ControlP5 cp5;
+
+Window tw;
+
+processing.awt.PSurfaceAWT.SmoothCanvas frame;
+PVector initialPos = new PVector(0, 0);
+int a = 3;
 
 CurveView myview;
 
 void setup () {
 	noSmooth();
-	size(800, 600);
+
+	frame = (processing.awt.PSurfaceAWT.SmoothCanvas)surface.getNative();
+	surface.setSize(800, 600);
+
+	initialPos = new PVector(displayWidth / 2 - width / 2, displayHeight / 2 - height / 2);
+	surface.setLocation((int)initialPos.x, (int)initialPos.y);
+
+	cp5 = new ControlP5(this);
+
 	myview = new CurveView("3D Test Application", width, height);
 	myview.Setup();
+
+	tw = new ToolsWindow(this,"ToolBox", 220, 300, myview);
+
 }
 
 void draw() {

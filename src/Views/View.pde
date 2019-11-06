@@ -121,7 +121,7 @@ class View {
 	public void Draw() {
 		DrawImage();
 		ResetPixels();
-		DrawToolbar();
+		// DrawToolbar();
 		for (int i = 0; i < m_controllers.size(); ++i) {
 			m_controllers.get(i).Draw();
 		}
