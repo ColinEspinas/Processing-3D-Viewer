@@ -110,18 +110,23 @@ class View {
 		int totalToolCount = GetToolset().GetToolCount();
 		
 		text("Selected Tool : " + selectedToolName + " (" + selectedToolIndex + "/" + totalToolCount + ")", 10, 20);
-		selectedTool.DrawControls();
 	}
 	
 	public void Setup() {
 		surface.setTitle(m_title);
 		CreateImage();
 	}
+
+	public void SetTitle(String title) {
+		m_title = title;
+		surface.setTitle(m_title);
+	}
 	
 	public void Draw() {
 		DrawImage();
 		ResetPixels();
 		// DrawToolbar();
+		GetToolset().GetSelectedTool().DrawControls();
 		for (int i = 0; i < m_controllers.size(); ++i) {
 			m_controllers.get(i).Draw();
 		}

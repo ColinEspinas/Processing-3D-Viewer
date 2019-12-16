@@ -3,6 +3,8 @@ class Controller {
 	protected ControlPoint m_selectedControlPoint;
 	
 	protected View m_view;
+
+	protected boolean m_canDraw = true;
 	
 	public void AddModel(Model m) { m.SetController(this); m_models.add(m); }
 	public void RemoveModel(int i) { m_models.remove(i); }
@@ -13,6 +15,7 @@ class Controller {
 		}
 	}
 	public Model GetModel(int i) { return m_models.get(i); }
+	public int GetModelsCount() { return m_models.size(); }
 	
 	public void SetView(View v) { m_view = v; }
 	public View GetView() { return m_view; }
@@ -54,10 +57,14 @@ class Controller {
 	public void DrawPixel(int x, int y, color c) {
 		m_view.DrawPixel(x, y, c);
 	}
+
+	public void CanDraw(boolean canDraw) { m_canDraw = canDraw; }
 	
 	public void Draw() {
-		for (Model m : m_models) {
-			m.Draw();
+		if (m_canDraw) {
+			for (Model m : m_models) {
+				m.Draw();
+			}
 		}
 	}
 }

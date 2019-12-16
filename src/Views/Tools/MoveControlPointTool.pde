@@ -15,6 +15,5 @@ class MoveControlPointTool extends Tool {
 		else {
 			c.GetSelectedControlPoint().Move(mouseX, mouseY);
 		}
-		
 	}
 }

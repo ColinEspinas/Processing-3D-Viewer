@@ -21,6 +21,9 @@ class Model {
 			}
 		}
 	}
+
+	public boolean GetShowControls() { return m_showControls; }
+	public void SetShowControls(boolean b) { m_showControls = b; }
 	
 	public void SetController(Controller c) { m_controller = c; }
 	public Controller GetController() { return m_controller; }

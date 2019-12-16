@@ -1,0 +1,10 @@
+{
+	"configurations": [
+		{
+			"type": "java",
+			"name": "CodeLens (Launch) - sketch_3Ddisplay",
+			"request": "launch",
+			"mainClass": "sketch_3Ddisplay"
+		}
+	]
+}

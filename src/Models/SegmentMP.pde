@@ -1,8 +1,17 @@
 class SegmentMP extends Model {
 
+	protected color m_color;
+
 	SegmentMP(ControlPoint cp1, ControlPoint cp2) {
 		AddControlPoint(cp1);
 		AddControlPoint(cp2);
+		m_color = color(0, 0, 0);
+	}
+
+	SegmentMP(ControlPoint cp1, ControlPoint cp2, color c) {
+		AddControlPoint(cp1);
+		AddControlPoint(cp2);
+		m_color = c;
 	}
 	
 	public void Draw() {
@@ -35,7 +44,7 @@ class SegmentMP extends Model {
 					dp = 2 * dy - dx;
 					deltaE = 2 * dy;
 					deltaNE = 2 * (dy - dx);
-					DrawPixel(x, y, color(0, 0, 0));
+					DrawPixel(x, y, m_color);
 					while(y < yTop || x != xTop) {
 						if (dp <= 0) {
 							dp += deltaE;
@@ -46,7 +55,7 @@ class SegmentMP extends Model {
 							x++;
 							y++;
 						}
-						DrawPixel(x, y, color(0, 0, 0));
+						DrawPixel(x, y, m_color);
 					}
 				}
 				else {
@@ -64,7 +73,7 @@ class SegmentMP extends Model {
 							x++;
 							y++;
 						}
-						DrawPixel(x, y, color(0, 0, 0));
+						DrawPixel(x, y, m_color);
 					}
 				}
 			 }
@@ -75,7 +84,7 @@ class SegmentMP extends Model {
 					dp = 2 * dy - dx;
 					deltaE = 2 * dy;
 					deltaNE = 2 * (dy - dx);
-					DrawPixel(x, y, color(0, 0, 0));
+					DrawPixel(x, y, m_color);
 					while(y < yTop || x != xTop) {
 						if (dp <= 0) {
 							dp += deltaE;
@@ -86,14 +95,14 @@ class SegmentMP extends Model {
 							x--;
 							y++;
 						}
-						DrawPixel(x, y, color(0, 0, 0));
+						DrawPixel(x, y, m_color);
 					}
 				}
 				else {
 					dp = 2 * dx - dy;
 					deltaE = 2 * dx;
 					deltaNE = 2 * (dx - dy);
-					DrawPixel(x, y, color(0, 0, 0));
+					DrawPixel(x, y, m_color);
 					while(y < yTop || x != xTop) {
 						if (dp <= 0) {
 							dp += deltaE;
@@ -104,7 +113,7 @@ class SegmentMP extends Model {
 							x--;
 							y++;
 						}
-						DrawPixel(x, y, color(0, 0, 0));
+						DrawPixel(x, y, m_color);
 					}
 				}
 			}	

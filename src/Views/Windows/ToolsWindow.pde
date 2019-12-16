@@ -1,12 +1,16 @@
 public class ToolsWindow extends Window {
 	
-	
 	// GUI Elements
 	Textlabel selectedToolLabel;
 	DropdownList toolDropList;
 	ColorWheel colorpick;
+	Button loadModelButton;
+	ObjectFileLoader objloader;
 
 	View m_view;
+
+	boolean canOpenFile = false;
+	boolean showControls = false;
 
 	private ToolsWindow(View v) {
 		super();
@@ -35,6 +39,20 @@ public class ToolsWindow extends Window {
 		selectedToolLabel = m_cp5.addTextlabel("ToolLabel").setPosition(10, 10).setSize(200,50)
 							.setText("Selected tool : None");
 
+		loadModelButton = m_cp5.addButton("LoadModel")
+							.setCaptionLabel("Load a model")
+							.setValue(0)
+							.setPosition(10,300)
+							.setSize(200,19);
+
+		loadModelButton = m_cp5.addButton("ToggleControls")
+							.setCaptionLabel("Toggle Controls")
+							.setValue(0)
+							.setPosition(10,330)
+							.setSize(200,19);
+
+		objloader = ((sketch_3Ddisplay)m_parent).objloader;
+
 		SetupToolGUI();
 	}
 
@@ -61,7 +79,7 @@ public class ToolsWindow extends Window {
 	void controlEvent(ControlEvent e) {
 		if (e.isGroup()) {
 			println("event from group : " + e.getGroup().getValue() + " from " + e.getGroup());
-		} 
+		}
 		else if (e.isController()) {
 			if (e.getController().getName() == "Tools")
 			if (e.getController().getValue() < m_view.GetToolset().GetToolCount()) {
@@ -82,5 +100,54 @@ public class ToolsWindow extends Window {
 
 	public color GetSelectedColor() {
 		return colorpick.getRGB();
+	}
+
+	public void LoadModel(int value) {
+		if (canOpenFile)
+			selectInput("Select a file to open:", "objectFileSelected");
+		canOpenFile = true;
+	}
+
+	public void ToggleControls(int value) {
+		showControls = !showControls;
+		RefreshShowControls();
+	}
+
+	public void RefreshShowControls() {
+		for (int i = 0; i < m_view.GetController(0).GetModelsCount(); ++i) {
+			if (showControls) {
+				m_view.GetController(0).GetModel(i).SetShowControls(true);
+			}
+			else {
+				m_view.GetController(0).GetModel(i).SetShowControls(false);
+			}
+		}
+	}
+
+	void objectFileSelected(File f) {
+		if (f == null) {
+			println("Window was closed or the user hit cancel.");
+		} else {
+			String fext = f.getName().substring(f.getName().indexOf(".") + 1);
+			if (fext.equals("obj")) {
+				println("User selected " + f.getAbsolutePath());
+				m_view.GetController(0).CanDraw(false);
+				objloader.LoadObject(f.getAbsolutePath(), f.getName().replaceFirst("[.][^.]+$", ""));
+				m_view.GetController(0).CanDraw(true);
+				RefreshShowControls();
+			}
+			else {
+				selectInput("Select a file to open:", "objectFileSelected");
+			}
+		}
+	}
+
+	void textureFileSelected(File f) {
+		if (f == null) {
+			println("Window was closed or the user hit cancel.");
+		} else {
+			println("User selected " + f.getAbsolutePath());
+			objloader.LoadTexture(objloader.m_loadingMesh, f.getAbsolutePath());
+		}
 	}
 }

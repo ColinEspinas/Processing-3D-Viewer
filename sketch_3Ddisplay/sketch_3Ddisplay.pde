@@ -1,6 +1,7 @@
 import controlP5.*;
 
 ControlP5 cp5;
+ObjectFileLoader objloader;
 
 Window tw;
 
@@ -24,7 +25,10 @@ void setup () {
 	myview = new CurveView("3D Test Application", width, height);
 	myview.Setup();
 
-	tw = new ToolsWindow(this,"ToolBox", 220, 300, myview);
+	objloader = new ObjectFileLoader(this);
+	selectInput("Select a file to scene:", "sceneFileSelected");
+
+	tw = new ToolsWindow(this,"ToolBox", 220, 360, myview);
 
 }
 
@@ -65,5 +69,21 @@ void keyPressed() {
 	
 	if (key == 'c') {
 		myview.GetController(0).RemoveModels();
+	}
+}
+
+void sceneFileSelected(File f) {
+	if (f == null) {
+		println("Window was closed or the user hit cancel.");
+	} else {
+		String fext = f.getName().substring(f.getName().indexOf(".") + 1);
+		if (fext.equals("sce")) {
+			println("User selected " + f.getAbsolutePath());
+			objloader.LoadScene(f.getName().replaceFirst("[.][^.]+$", ""), f.getAbsolutePath(), width, height, myview.GetController(0));
+			myview.SetTitle("3D Test Application | " + objloader.m_loadedScene.m_name);
+		}
+		else {
+			selectInput("Select a file to scene:", "sceneFileSelected");
+		}
 	}
 }
